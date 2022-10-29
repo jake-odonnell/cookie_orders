@@ -1,4 +1,4 @@
 from Flask_app import app
-
-if __main__ == __name__:
+from Flask_app.controllers import orders
+if __name__ == '__main__':
     app.run(debug = True)
