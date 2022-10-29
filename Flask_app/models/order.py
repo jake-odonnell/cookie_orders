@@ -6,7 +6,7 @@ class Order:
         self.id = data['id']
         self.name = data['name']
         self.cookie = data['cookie']
-        self.boxes = data['boxes']
+        self.amount = data['boxes']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
         return
@@ -45,3 +45,9 @@ class Order:
             flash('Amount of Cookies must be positive number')
             is_val = False
         return is_val
+
+    @classmethod
+    def change_order(cls, data):
+        query = 'UPDATE orders SET name = %(name)s, cookie = %(cookie)s, boxes = %(amount)s WHERE id = %(id)s;'
+        connectToMySQL('cookies').query_db(query, data)
+        return

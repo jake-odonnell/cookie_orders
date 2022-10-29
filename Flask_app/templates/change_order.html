@@ -9,21 +9,31 @@
 </head>
 <body>
     <div class="container text-center">
-        <form action="/add-order" class="form border shadow col-4 p-3 mt-3 bg-secondary font-weight-bold">
+        <form action="/change-order" class="form border shadow col-4 p-3 mt-3 bg-secondary font-weight-bold" method="post">
             <h1>Change Order</h1>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <p>{{message}}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
             <div class="d-flex justify-content-around">
                 <label for="name" class="col-3">Name:</label>
-                <input class = "col-6" type="text" name="name" value={{order.name}}>
+                <input class = "col-6" type="text" name="name" value="{{order.name}}">
             </div>
             <div class="d-flex justify-content-around">
                 <label for="cookie" class="col-3">Cookie:</label>
-                <input class = "col-6" type="text" name="cookie" value={{order.cookie}}>
+                <input class = "col-6" type="text" name="cookie" value="{{order.cookie}}">
             </div>
             <div class="d-flex justify-content-around">
                 <label for="amount" class="col-3">Amount:</label>
                 <input class = "col-6" type="number" name="amount" value={{order.amount}}>
             </div>
+            <button type="submit">Update</button>
+            <input type="hidden" name="id" value="{{order.id}}">
         </form>
+        <a href="/orders" class="text-center">Home</a>
     </div>
 </body>
 </html>

@@ -21,3 +21,18 @@ def f_new_order():
         id = Order.add_order(request.form)
         return redirect('/orders')
     return redirect('/new_order')
+
+@app.route('/update/<id>')
+def r_update(id):
+    data = {
+        'id': id
+    }
+    order = Order.get_from_id(data)
+    return render_template('change_order.html', order = order)
+
+@app.route('/change-order', methods = ['POST'])
+def f_change_order():
+    if Order.val_order(request.form):
+        Order.change_order(request.form)
+        return redirect('/orders')
+    return redirect('/update/' + request.form['id'])
