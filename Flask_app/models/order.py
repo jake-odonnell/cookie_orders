@@ -1,4 +1,5 @@
 from Flask_app.config.mysqlconnection import connectToMySQL
+from flask import flash
 
 class Order:
     def __init__(self, data:dict):
@@ -24,3 +25,23 @@ class Order:
         query = 'SELECT * FROM orders WHERE id = %(id)s;'
         result = connectToMySQL('cookies').query_db(query, data)
         return cls(result[0])
+
+    @classmethod
+    def add_order(cls, data:dict):
+        query = 'INSERT INTO orders (name, cookie, boxes) VALUE (%(name)s,%(cookie)s,%(amount)s);'
+        return connectToMySQL('cookies').query_db(query, data)
+
+    @staticmethod
+    def val_order(data:dict):
+        is_val = True
+        if len(data['name']) < 2:
+            flash('Valid name is required')
+            is_val = False
+        if len(data['cookie']) < 2:
+            flash("Valid cookie is required")
+            is_val = False
+        print(data['amount'])
+        if data['amount'] == '' or int(data['amount']) <= 0:
+            flash('Amount of Cookies must be positive number')
+            is_val = False
+        return is_val
